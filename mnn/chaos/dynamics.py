@@ -45,17 +45,23 @@ class NonlinearSystem:
 class BifurcationAnalyzer:
     @staticmethod
     def logistic_map_bifurcation(r_range=(2.5,4.0), n_r=1000, n_iter=1000, n_skip=200, x0=0.5):
+        if n_iter <= 0 or n_r <= 0:
+            return np.array([]), np.array([])
+        burn_in=min(max(n_skip,0),max(n_iter-1,0)); keep_iters=max(n_iter-burn_in,1)
         r_vals=np.linspace(*r_range,n_r); rp,xp=[],[]
         for r in r_vals:
             x=x0
-            for _ in range(n_skip): x=r*x*(1-x)
-            for _ in range(n_iter-n_skip): x=r*x*(1-x); rp.append(r); xp.append(x)
+            for _ in range(burn_in): x=r*x*(1-x)
+            for _ in range(keep_iters): x=r*x*(1-x); rp.append(r); xp.append(x)
         return np.array(rp), np.array(xp)
     @staticmethod
     def henon_map_bifurcation(a_range=(0.8,1.4), b=0.3, n_a=500, n_iter=500, n_skip=200):
+        if n_iter <= 0 or n_a <= 0:
+            return np.array([]), np.array([])
+        burn_in=min(max(n_skip,0),max(n_iter-1,0)); keep_iters=max(n_iter-burn_in,1)
         a_vals=np.linspace(*a_range,n_a); ap,xp=[],[]
         for a in a_vals:
             x,y=0.,0.
-            for _ in range(n_skip): x,y=1-a*x**2+y,b*x
-            for _ in range(n_iter-n_skip): x,y=1-a*x**2+y,b*x; ap.append(a); xp.append(x)
+            for _ in range(burn_in): x,y=1-a*x**2+y,b*x
+            for _ in range(keep_iters): x,y=1-a*x**2+y,b*x; ap.append(a); xp.append(x)
         return np.array(ap), np.array(xp)

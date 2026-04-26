@@ -217,12 +217,12 @@ class TensorFieldEngine:
         fn = torch.norm(T.view(T.shape[0],-1), dim=-1)    # (N,)
         det= torch.linalg.det(T)                           # (N,)
         return {
-            "trace_mean":   float(tr.mean()),
-            "trace_std":    float(tr.std()),
-            "frob_mean":    float(fn.mean()),
-            "frob_std":     float(fn.std()),
-            "det_mean":     float(det.mean()),
-            "det_positive": float((det > 0).float().mean()),
+            "trace_mean":   float(tr.mean().detach()),
+            "trace_std":    float(tr.std().detach()),
+            "frob_mean":    float(fn.mean().detach()),
+            "frob_std":     float(fn.std().detach()),
+            "det_mean":     float(det.mean().detach()),
+            "det_positive": float((det > 0).float().mean().detach()),
             "n_points":     int(x.shape[0]),
         }
 

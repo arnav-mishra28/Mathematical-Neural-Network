@@ -121,6 +121,34 @@ class PrototypeResult:
     mse_derivative:    float           # MSE between f'_pred and 2x
     convergence_epoch: Optional[int]   # epoch where derivative MSE < 1e-4
 
+    @property
+    def x_eval(self) -> np.ndarray:
+        return self.x_train
+
+    @property
+    def total_losses(self) -> List[float]:
+        return self.loss_history.get("total", [])
+
+    @property
+    def constraint_losses(self) -> List[float]:
+        return self.loss_history.get("constraint", [])
+
+    @property
+    def anchor_losses(self) -> List[float]:
+        return self.loss_history.get("anchor", [])
+
+    @property
+    def data_losses(self) -> List[float]:
+        return self.loss_history.get("data", [])
+
+    @property
+    def final_mse_f(self) -> float:
+        return self.mse_function
+
+    @property
+    def final_mse_df(self) -> float:
+        return self.mse_derivative
+
     def summary(self) -> str:
         lines = [
             "╔══════════════════════════════════════════════╗",
@@ -242,13 +270,14 @@ class DerivativeTrainer:
             self.scheduler.step()
 
             # ── Record ────────────────────────────────────────────────────────
-            self.loss_history["constraint"].append(float(L_c))
-            self.loss_history["anchor"].append(float(L_a))
-            self.loss_history["data"].append(float(L_d))
-            self.loss_history["total"].append(float(L_total))
+            l_c=float(L_c.detach()); l_a=float(L_a.detach()); l_d=float(L_d.detach()); l_total=float(L_total.detach())
+            self.loss_history["constraint"].append(l_c)
+            self.loss_history["anchor"].append(l_a)
+            self.loss_history["data"].append(l_d)
+            self.loss_history["total"].append(l_total)
 
             # ── Convergence check ─────────────────────────────────────────────
-            if self.convergence_epoch is None and float(L_c) < tol_converge:
+            if self.convergence_epoch is None and l_c < tol_converge:
                 self.convergence_epoch = epoch
                 if verbose:
                     tqdm.write(f"  ✓ Derivative constraint converged at epoch {epoch}  (L_c={float(L_c):.2e})")
