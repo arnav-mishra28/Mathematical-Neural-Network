@@ -4,23 +4,6 @@ import numpy as np
 from scipy.integrate import solve_ivp
 from typing import Callable, Tuple, Optional
 
-
-def _normalized_autocorrelation(signal):
-    sig=np.asarray(signal,dtype=float).ravel()
-    if sig.size<2: return np.array([1.0])
-    sig=sig-sig.mean()
-    acf=np.correlate(sig,sig,mode="full")[sig.size-1:]
-    if acf.size==0 or abs(acf[0])<1e-15: return np.array([1.0])
-    return acf/acf[0]
-
-
-def _decorrelation_lag(signal, threshold, max_lag):
-    acf=_normalized_autocorrelation(signal)
-    upper=min(max_lag,acf.size-1)
-    for lag in range(1,upper+1):
-        if acf[lag]<threshold: return lag
-    return 1
-
 class ChaosAnalyzer:
     @staticmethod
     def largest_lyapunov_exponent(trajectory, dt=0.01, min_sep=10):
@@ -84,17 +67,10 @@ class ChaosAnalyzer:
         return -np.log(A/B) if A>0 and B>0 else 0.
     @staticmethod
     def permutation_entropy(signal, order=3, delay=1):
-        from math import factorial
-        sig=np.asarray(signal,dtype=float).ravel()
-        if order<2 or sig.size<order: return 0.0
-        eff_delay=max(int(delay),1)
-        if eff_delay==1 and sig.size>=order*8:
-            eff_delay=_decorrelation_lag(sig,0.9,max(1,min(sig.size//(order+1),32)))
-        n=len(sig); counts={}; total=0
-        for i in range(n-(order-1)*eff_delay):
-            sub=sig[i:i+order*eff_delay:eff_delay]; perm=tuple(np.argsort(sub,kind="mergesort"))
+        from math import factorial; n=len(signal); counts={}; total=0
+        for i in range(n-(order-1)*delay):
+            sub=signal[i:i+order*delay:delay]; perm=tuple(np.argsort(np.argsort(sub)))
             counts[perm]=counts.get(perm,0)+1; total+=1
-        if total==0: return 0.0
         probs=np.array(list(counts.values()))/total
         return -np.sum(probs*np.log2(probs+1e-15))/np.log2(factorial(order))
     @staticmethod
@@ -119,22 +95,12 @@ class ChaosAnalyzer:
         return {"RR":float(RR),"DET":float(DET),"L_max":L_max}
     @staticmethod
     def zero_one_test(signal, n_samples=100):
-        sig=np.asarray(signal,dtype=float).ravel()
-        if sig.size<10: return 0.0
-        if sig.size>=100:
-            step=_decorrelation_lag(sig,0.2,max(1,min(sig.size//10,64)))
-            sig=sig[::step]
-        n=len(sig); rng=np.random.default_rng(42)
+        n=len(signal); rng=np.random.default_rng(42)
         Ks=[]
         for c in rng.uniform(np.pi/5,4*np.pi/5,n_samples):
             p=np.zeros(n); q=np.zeros(n)
-            for j in range(1,n): p[j]=p[j-1]+sig[j-1]*np.cos(j*c); q[j]=q[j-1]+sig[j-1]*np.sin(j*c)
-            N2=n//2
-            if N2<=2: continue
-            M=np.array([np.mean((p[s:s+N2]-p[:N2])**2+(q[s:s+N2]-q[:N2])**2) for s in range(1,N2)])
-            if M.size==0 or np.std(M)<1e-12: continue
-            K=np.corrcoef(np.arange(1,N2),M)[0,1]
-            if not np.isnan(K): Ks.append(K)
-        if not Ks: return 0.0
-        return float(np.clip(np.median(Ks),0.0,1.0))
+            for j in range(1,n): p[j]=p[j-1]+signal[j-1]*np.cos(j*c); q[j]=q[j-1]+signal[j-1]*np.sin(j*c)
+            N2=n//2; M=np.array([np.mean((p[s:s+N2]-p[:N2])**2+(q[s:s+N2]-q[:N2])**2) for s in range(1,N2)])
+            Ks.append(np.corrcoef(np.arange(1,N2),M)[0,1])
+        return float(np.median(Ks))
     def __repr__(self): return "ChaosAnalyzer()"

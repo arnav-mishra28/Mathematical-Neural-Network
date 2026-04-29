@@ -168,7 +168,7 @@ class ThetaDivisor:
 
     def is_on_divisor(self, z: np.ndarray, tol: float = 0.5) -> bool:
         """Check if z is approximately on the theta divisor."""
-        return bool(abs(self.A.theta(z)) < tol)
+        return abs(self.A.theta(z)) < tol
 
     def divisor_points_1d(self, n_grid: int = 100) -> np.ndarray:
         """Sample points near Θ for g=1 (elliptic theta divisor)."""
