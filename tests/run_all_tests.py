@@ -61,3 +61,17 @@ for name, mod in [("Phase 4 — Manifold Learning", "test_manifold_learning")]:
 print(f"\n{'='*50}")
 print(f"  GRAND TOTAL: {passed} passed, {failed} failed")
 print(f"{'='*50}")
+
+for name, mod in [("Phase 5 — Chaos Simulation", "test_chaos_simulation")]:
+    print(f"\n{'='*50}\n  {name}\n{'='*50}")
+    try:
+        m   = __import__(mod)
+        fns = [v for k,v in vars(m).items() if k.startswith("test_") and callable(v)]
+        for fn in fns:
+            try: fn(); print(f"  ✓ {fn.__name__}"); passed+=1
+            except Exception as e: print(f"  ✗ {fn.__name__}: {e}"); failed+=1
+    except Exception as e: print(f"  Import error: {e}"); failed+=1
+
+print(f"\n{'='*50}")
+print(f"  GRAND TOTAL: {passed} passed, {failed} failed")
+print(f"{'='*50}")
