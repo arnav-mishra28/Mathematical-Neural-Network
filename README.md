@@ -17,6 +17,10 @@ mnn/
 │   ├── group_algebra.py → Neural group ops, equivariant nets, invariants
 │   ├── neural_pde.py    → Generalized PINN for arbitrary PDEs
 │   └── discovery.py     → Equation discovery (SINDy + neural smoothing)
+├── category/      → Category Theory Engine (Phase 4 — Unifying Abstraction)
+│   ├── core.py          → Objects, morphisms, categories, composition
+│   ├── functors.py      → Functors, natural transformations, bridges
+│   └── neural.py        → Neural morphisms, learnable functors, pipelines
 └── visualization/ → Visualization Engine
 ```
 
@@ -227,4 +231,86 @@ python examples/23_full_intelligence_pipeline.py
 python -m pytest tests/test_intelligence.py -v
 ```
 
+---
+
+## Phase 4 — Category Theory Layer (Unifying Abstraction)
+
+Category theory is not just another math module — it is the **unifying language** for the entire MNN system. Instead of `function → output`, you now think `object → morphism → object`.
+
+### Core Concepts (`mnn.category.core`)
+
+Objects, morphisms, composition, identity, products, coproducts, and diagram verification.
+
+```python
+from mnn.category.core import CatObject, Morphism, Category, make_vect_category
+
+# Build the category of vector spaces
+Vect = make_vect_category([1, 2, 3])
+
+# Objects are typed mathematical entities
+A = CatObject("S²", "manifold", data=sphere, dim=2)
+B = CatObject("R³", "vector", data=np.zeros(3), dim=3)
+
+# Morphisms are structure-preserving maps: f: A → B
+f = Morphism(A, B, fn=embed_fn, name="embed")
+
+# Composition: g ∘ f  (apply f first, then g)
+h = g @ f
+
+# Verify commutative diagrams
+C.verify_commutative_diagram([["f","g"], ["h"]], test_input=x)
+```
+
+### Functors (`mnn.category.functors`)
+
+Functors map between categories — the **glue layer** of the entire system.
+
+```python
+from mnn.category.functors import (
+    GeometryToAlgebraFunctor,      # manifold → metric tensor
+    AlgebraToComputationFunctor,   # group → Cayley table matrix
+    DynamicsToLearningFunctor,     # ODE → neural flow map
+    ForgetfulFunctor,              # forgets structure, keeps data
+    UniversalBridgeFunctor,        # generic inter-module converter
+)
+
+# Natural transformations: compare different models
+alpha = NaturalTransformation(F, G, components)
+alpha.verify_all(test_input=x)  # checks naturality condition
+```
+
+### Neural Categories (`mnn.category.neural`)
+
+Neural networks **are** morphisms in a category. Train entire compositions end-to-end.
+
+```python
+from mnn.category.neural import NeuralMorphism, NeuralCategory, CategoricalPipeline
+
+# Neural morphism: NN as a map between mathematical objects
+f_nn = NeuralMorphism(V2, V3, width=64, depth=3, name="embed")
+f_nn.train(x_train, y_train, n_epochs=1000)
+
+# Neural category: train chains of morphisms end-to-end
+NC = NeuralCategory("MathCat")
+NC.add_neural_morphism(A, B, name="encode")
+NC.add_neural_morphism(B, C, name="decode")
+NC.train_composition(["encode", "decode"], x_start, y_end)
+
+# Categorical pipeline: chain morphisms across different categories
+pipe = CategoricalPipeline("FullPipeline")
+pipe.add_stage("normalize", normalize_morphism)
+pipe.add_stage("embed", neural_embed_morphism)
+result = pipe.run(input_data)
+```
+
+### Category Theory Examples
+```bash
+python examples/24_category_theory_core.py
+python examples/25_functors_neural_categories.py
+```
+
+### Category Theory Tests
+```bash
+python -m pytest tests/test_category.py -v
+```
 
