@@ -21,6 +21,13 @@ mnn/
 │   ├── core.py          → Objects, morphisms, categories, composition
 │   ├── functors.py      → Functors, natural transformations, bridges
 │   └── neural.py        → Neural morphisms, learnable functors, pipelines
+├── quantum/       → Quantum-Inspired Neural Math (Phase 5)
+│   ├── hilbert.py       → Hilbert spaces, quantum states, gates
+│   ├── complex_nn.py    → Complex-valued neural networks
+│   ├── unitary.py       → Unitary transformations, norm-preserving layers
+│   ├── attention.py     → Quantum-inspired attention mechanisms
+│   ├── geometric.py     → Fubini-Study manifold, curvature-aware learning
+│   └── chaos.py         → Random matrices, spectral statistics, OTOC
 └── visualization/ → Visualization Engine
 ```
 
@@ -314,3 +321,94 @@ python examples/25_functors_neural_categories.py
 python -m pytest tests/test_category.py -v
 ```
 
+---
+
+## Phase 5 — Quantum-Inspired Neural Math
+
+Borrows mathematical structures from quantum mechanics for richer neural representations. NOT a quantum computer — uses complex-valued state spaces, unitary dynamics, and quantum geometry.
+
+### Part 1: Hilbert Space Layer (`mnn.quantum.hilbert`)
+
+Complex-valued state spaces with amplitude/phase representation.
+
+```python
+from mnn.quantum.hilbert import QuantumState, HilbertSpace, QuantumGates
+
+psi = QuantumState.uniform_superposition(4)    # |psi> = equal amplitudes
+qubit = QuantumState.from_bloch(np.pi/3, 0)    # Bloch sphere
+bell = psi.tensor_product(phi)                 # tensor product
+S = bell.von_neumann_entropy((2, 2))           # entanglement entropy
+psi_h = psi.evolve(QuantumGates.H)             # Hadamard gate
+```
+
+### Part 2: Complex-Valued Neural Networks (`mnn.quantum.complex_nn`)
+
+Process magnitude AND phase instead of only scalar activations.
+
+```python
+from mnn.quantum.complex_nn import ComplexNeuralNetwork, ComplexTrainer
+
+cnn = ComplexNeuralNetwork(3, 1, width=64, depth=4, activation="modrelu")
+trainer = ComplexTrainer(cnn)
+trainer.train(x, y, n_epochs=2000)
+mag, phase = cnn.magnitude_phase(x_tensor)  # internal complex features
+```
+
+### Part 3: Unitary Transformations (`mnn.quantum.unitary`)
+
+Norm-preserving layers (U†U = I) for stable, reversible dynamics.
+
+```python
+from mnn.quantum.unitary import UnitaryNetwork, UnitaryTrainer
+
+un = UnitaryNetwork(3, 2, hidden_dim=64, n_blocks=4)
+trainer = UnitaryTrainer(un, unitarity_weight=0.01)
+trainer.train(x, y, n_epochs=1000)
+print(un.total_unitarity_error())  # should be ~0
+```
+
+### Part 4: Quantum-Inspired Attention (`mnn.quantum.attention`)
+
+Attention via amplitude overlap <φ|ψ> instead of dot products.
+
+```python
+from mnn.quantum.attention import QuantumTransformer
+
+qt = QuantumTransformer(input_dim=8, output_dim=2, d_model=64, n_heads=4)
+output, attention_weights = qt(x)
+```
+
+### Part 5: Quantum Geometric Learning (`mnn.quantum.geometric`)
+
+Embeddings on curved quantum state manifolds (Fubini-Study geometry).
+
+```python
+from mnn.quantum.geometric import FubiniStudyMetric, QuantumGeometricNetwork
+
+dist = FubiniStudyMetric.distance(psi, phi)     # geodesic distance
+bp = FubiniStudyMetric.berry_phase(state_loop)  # Berry phase
+qgn = QuantumGeometricNetwork(4, 1, state_dim=32, n_geo_layers=4)
+```
+
+### Part 6: Quantum Chaos (`mnn.quantum.chaos`)
+
+Random matrix theory, spectral statistics, chaotic quantum dynamics.
+
+```python
+from mnn.quantum.chaos import RandomMatrixEnsemble, SpectralAnalyzer, QuantumKickedTop
+
+goe = RandomMatrixEnsemble.goe(200)             # Gaussian Orthogonal Ensemble
+stats = SpectralAnalyzer.classify_dynamics(evals)  # integrable vs chaotic
+qkt = QuantumKickedTop(j=10, k=3.0)             # paradigmatic chaos model
+```
+
+### Quantum Examples
+```bash
+python examples/26_quantum_hilbert_complex.py
+python examples/27_quantum_attention_geometry_chaos.py
+```
+
+### Quantum Tests
+```bash
+python -m pytest tests/test_quantum.py -v
+```
