@@ -1,4 +1,4 @@
-"""MNN — Mathematical Neural Network Framework v0.4.0
+"""MNN — Mathematical Neural Network Framework v0.5.0
 
 Modules:
   core          — Symbolic math engine, differential operators, special functions
@@ -10,7 +10,8 @@ Modules:
   intelligence  — Flow maps, group algebra, neural PDE, discovery engine
   category      — Category theory: objects, morphisms, functors, neural categories
   quantum       — Quantum-inspired math: Hilbert spaces, complex NNs, unitary, attention, geometry, chaos
+  discovery     — Mathematical discovery: representation, patterns, conjectures, validation, neural search
   visualization — Plotting utilities
 """
-__version__ = "0.4.0"
+__version__ = "0.5.0"
 

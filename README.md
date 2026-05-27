@@ -28,6 +28,13 @@ mnn/
 │   ├── attention.py     → Quantum-inspired attention mechanisms
 │   ├── geometric.py     → Fubini-Study manifold, curvature-aware learning
 │   └── chaos.py         → Random matrices, spectral statistics, OTOC
+├── discovery/     → Mathematical Discovery Engine (Phase 6)
+│   ├── representation.py → Expression trees, math object encoding
+│   ├── patterns.py       → Symmetry detection, invariant finding
+│   ├── conjectures.py    → Hypothesis generation
+│   ├── validation.py     → Numerical/symbolic verification
+│   ├── neural_search.py  → Neural-guided theorem search
+│   └── categorical.py    → Category-theoretic discovery
 └── visualization/ → Visualization Engine
 ```
 
@@ -411,4 +418,98 @@ python examples/27_quantum_attention_geometry_chaos.py
 ### Quantum Tests
 ```bash
 python -m pytest tests/test_quantum.py -v
+```
+
+---
+
+## Phase 6 — Mathematical Discovery Engine
+
+Automated theorem discovery: observe structures → detect patterns → generate hypotheses → validate.
+
+### Engine 1: Mathematical Representation (`mnn.discovery.representation`)
+
+Makes mathematics machine-readable via expression trees.
+
+```python
+from mnn.discovery.representation import ExprNode, MathEncoder
+
+# Build expression tree: x² + sin(y)
+expr = ExprNode.op("+", ExprNode.op("**", ExprNode.symbol("x"), ExprNode.constant(2)),
+                        ExprNode.func("sin", ExprNode.symbol("y")))
+expr.evaluate({"x": 3, "y": 1.57})   # 10.0
+sp_expr = expr.to_sympy()              # SymPy roundtrip
+vec = expr.to_vector()                 # neural-ready encoding
+```
+
+### Engine 2: Pattern Discovery (`mnn.discovery.patterns`)
+
+Search for symmetries, invariants, and sequence patterns.
+
+```python
+from mnn.discovery.patterns import SymmetryDetector, SequenceAnalyzer, InvariantFinder
+
+SequenceAnalyzer.analyze([1, 4, 9, 16, 25])           # "quadratic"
+SymmetryDetector.test_commutativity(op, elements)      # True/False
+InvariantFinder.find_conservation_laws(trajectory)     # conserved quantities
+```
+
+### Engine 3: Conjecture Generation (`mnn.discovery.conjectures`)
+
+Generate hypotheses about algebraic, geometric, dynamical properties.
+
+```python
+from mnn.discovery.conjectures import ConjectureGenerator
+
+gen = ConjectureGenerator()
+gen.analyze_operation(lambda a,b: a+b, elements, "add")  # finds commutativity
+gen.analyze_sequence([1, 4, 9, 16, 25])                  # finds n² pattern
+gen.analyze_dynamical_system(trajectory)                  # finds conservation
+print(gen.report())
+```
+
+### Engine 4: Validation (`mnn.discovery.validation`)
+
+Numerical verification, counterexample search, symbolic proofs.
+
+```python
+from mnn.discovery.validation import ConjectureValidator, SymbolicValidator
+
+validator = ConjectureValidator()
+validator.validate_conjecture(conjecture, test_fn, domain)  # full pipeline
+SymbolicValidator.verify_identity(a+b, b+a, ["a","b"])     # symbolic proof
+```
+
+### Engine 5: Neural-Guided Theorem Search (`mnn.discovery.neural_search`)
+
+Neural network predicts promising proof steps.
+
+```python
+from mnn.discovery.neural_search import NeuralTheoremSearcher, TransformationLibrary
+
+rules = TransformationLibrary.algebraic_rules()
+searcher = NeuralTheoremSearcher(rules, beam_width=5)
+path = searcher.search(start_expr, goal_fn)  # beam search with neural scoring
+```
+
+### Engine 6: Category-Theoretic Discovery (`mnn.discovery.categorical`)
+
+Discover morphism invariants, equivalence classes, and functorial structure.
+
+```python
+from mnn.discovery.categorical import CategoricalDiscoveryEngine
+
+engine = CategoricalDiscoveryEngine()
+engine.analyze_morphism(f, properties, data)        # preserved properties
+engine.analyze_equivalences(elements, equiv_fn)     # equivalence classes
+engine.discover_functorial_structure(obj_map, mor_map, ...)  # functor check
+```
+
+### Discovery Examples
+```bash
+python examples/28_discovery_engine.py
+```
+
+### Discovery Tests
+```bash
+python -m pytest tests/test_discovery.py -v
 ```
