@@ -35,6 +35,13 @@ mnn/
 │   ├── validation.py     → Numerical/symbolic verification
 │   ├── neural_search.py  → Neural-guided theorem search
 │   └── categorical.py    → Category-theoretic discovery
+├── embeddings/    → Quantum-Inspired Theorem Embeddings (Phase 7)
+│   ├── theorem_states.py → Quantum state representation of theorems
+│   ├── tokenizer.py      → Mathematical tokenization with type annotations
+│   ├── complex_embed.py  → Complex-valued embeddings + similarity
+│   ├── proof_trajectories.py → Proof paths through theorem space
+│   ├── categorical_embed.py  → Category-theoretic embeddings
+│   └── training.py       → Training objectives (4 losses)
 └── visualization/ → Visualization Engine
 ```
 
@@ -512,4 +519,98 @@ python examples/28_discovery_engine.py
 ### Discovery Tests
 ```bash
 python -m pytest tests/test_discovery.py -v
+```
+
+---
+
+## Phase 7 — Quantum-Inspired Theorem Embeddings
+
+Bridge between symbolic mathematics, geometric learning, and quantum-inspired representation. Theorems become continuous geometric entities in a complex Hilbert space.
+
+### Part 1: Theorem State Representation (`mnn.embeddings.theorem_states`)
+
+Represent theorems as quantum states |T⟩ = Σ c_i |b_i⟩ over 32 basis mathematical concepts.
+
+```python
+from mnn.embeddings.theorem_states import ConceptBasis, TheoremState
+
+basis = ConceptBasis()  # 32 math concepts
+thm = TheoremState.from_concepts({"commutativity": 1.0, "symmetry": 0.8}, basis)
+thm.similarity(other)   # |<T1|T2>|^2
+thm.concept_entropy()   # Shannon entropy of concept distribution
+```
+
+### Part 2: Mathematical Tokenization (`mnn.embeddings.tokenizer`)
+
+Tokenize expressions with algebraic type and categorical role annotations.
+
+```python
+from mnn.embeddings.tokenizer import MathTokenizer
+
+tok = MathTokenizer()
+tokens = tok.tokenize("forall x : sin(x)**2 + cos(x)**2 = 1")
+encoded = tok.encode(expr, max_len=64)   # integer sequence
+info = tok.structural_encoding(expr)      # rich structural analysis
+```
+
+### Parts 3-4: Complex Embeddings & Similarity (`mnn.embeddings.complex_embed`)
+
+Complex-valued neural encoder with magnitude+phase and quantum inner products.
+
+```python
+from mnn.embeddings.complex_embed import TheoremEncoder, TheoremSimilarity
+
+encoder = TheoremEncoder(vocab_size, embed_dim=64, n_heads=4)
+r, i = encoder(token_ids)   # complex embedding
+TheoremSimilarity.overlap(r1, i1, r2, i2)         # |<T1|T2>|^2
+TheoremSimilarity.nearest_theorems(q_r, q_i, db_r, db_i, names)
+```
+
+### Part 5: Proof Trajectories (`mnn.embeddings.proof_trajectories`)
+
+Model proofs as continuous paths through theorem space.
+
+```python
+from mnn.embeddings.proof_trajectories import ProofTrajectory, ProofNavigator
+
+traj = ProofTrajectory(name="proof")
+traj.add_step(real, imag, "step_1")
+ProofNavigator.interpolate(start_r, start_i, end_r, end_i, 10)  # geodesic
+ProofNavigator.analogy(a_r, a_i, b_r, b_i, c_r, c_i)  # A:B :: C:?
+```
+
+### Part 6: Category-Theoretic Embeddings (`mnn.embeddings.categorical_embed`)
+
+Theorems as objects, proofs as morphisms — compositional + geometric.
+
+```python
+from mnn.embeddings.categorical_embed import CategoricalTheoremSpace
+
+cat = CategoricalTheoremSpace(embed_dim, "MathTheorems")
+cat.add_theorem("T1", real, imag)
+cat.add_proof_morphism("T1", "T2", name="proof")
+cat.compose_morphisms("f", "g")   # g ∘ f
+cat.connected_components()         # proof-connected theorems
+```
+
+### Part 7: Training Objectives (`mnn.embeddings.training`)
+
+Four training losses for mathematically structured embeddings.
+
+```python
+from mnn.embeddings.training import TheoremEmbeddingTrainer
+
+trainer = TheoremEmbeddingTrainer(encoder)
+trainer.train_structural(pairs_1, pairs_2, labels, n_epochs=100)
+# Losses: structural similarity, proof continuity, algebraic consistency, topological regularization
+```
+
+### Embedding Examples
+```bash
+python examples/29_theorem_embeddings.py
+```
+
+### Embedding Tests
+```bash
+python -m pytest tests/test_embeddings.py -v
 ```
