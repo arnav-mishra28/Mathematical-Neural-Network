@@ -48,6 +48,11 @@ mnn/
 │   ├── spectral.py       → Spectral solving + geometric regularization
 │   ├── pde_discovery.py  → Discover governing PDEs from data
 │   └── categorical_pde.py → Category-theoretic PDE structure
+├── geometric_transformer/ → Geometric Transformer Architectures (Phase 9)
+│   ├── tokens.py         → Geometric tokens + geodesic attention
+│   ├── positional.py     → Spectral/graph positional encodings + categorical attention
+│   ├── quantum_attention.py → Quantum geometric + PDE-aware attention
+│   └── graph_transformer.py → Theorem graph transformers + hierarchical reasoning
 └── visualization/ → Visualization Engine
 ```
 
@@ -694,4 +699,70 @@ python examples/30_quantum_pde_solvers.py
 ### Quantum PDE Tests
 ```bash
 python -m pytest tests/test_quantum_pde.py -v
+```
+
+---
+
+## Phase 9 — Geometric Transformer Architectures
+
+Geometry-aware reasoning architectures. Attention over manifolds, graphs, curved spaces, and theorem geometries.
+
+### Parts 1-2: Geometric Tokens + Attention (`mnn.geometric_transformer.tokens`)
+
+Tokens on curved manifolds with geodesic-distance-based attention.
+
+```python
+from mnn.geometric_transformer.tokens import GeometricToken, GeometricAttention
+
+token = GeometricToken(embedding, TokenType.THEOREM, curvature=0.5)
+attn = GeometricAttention(embed_dim=64, n_heads=4, curvature=0.5)
+out = attn(x)  # curvature-corrected attention
+```
+
+### Parts 3-4: Positional Encodings + Categorical Attention (`mnn.geometric_transformer.positional`)
+
+Laplacian eigenvectors, random walk PE, and morphism-based compositional attention.
+
+```python
+from mnn.geometric_transformer.positional import SpectralPositionalEncoding, CategoricalAttention
+
+pe = SpectralPositionalEncoding(64, n_eigvecs=16)
+out = pe(x, adjacency)  # structural position from graph Laplacian
+cat_attn = CategoricalAttention(64, n_heads=4)  # morphism interaction scoring
+```
+
+### Parts 5-6: Quantum + PDE-Aware Attention (`mnn.geometric_transformer.quantum_attention`)
+
+Complex inner product attention with phase gates; PDE operator-enriched attention.
+
+```python
+from mnn.geometric_transformer.quantum_attention import QuantumGeometricAttention, PDEAwareAttention
+
+q_attn = QuantumGeometricAttention(64)  # ⟨ψ_i|ψ_j⟩ with learnable phases
+pde_attn = PDEAwareAttention(64)         # gradient + Laplacian enriched
+```
+
+### Parts 7-8: Graph Transformer + Hierarchical Reasoning (`mnn.geometric_transformer.graph_transformer`)
+
+Theorem knowledge graph reasoning with multi-scale hierarchy.
+
+```python
+from mnn.geometric_transformer.graph_transformer import (
+    TheoremGraphTransformer, HierarchicalGeometricTransformer)
+
+gt = TheoremGraphTransformer(embed_dim=64, n_layers=4, n_edge_types=6)
+out = gt(node_features, adjacency, edge_types)
+
+hgt = HierarchicalGeometricTransformer(n_levels=3)  # equations → proofs → domains
+result = hgt(x, adj)  # multi-scale representations
+```
+
+### Geometric Transformer Examples
+```bash
+python examples/31_geometric_transformers.py
+```
+
+### Geometric Transformer Tests
+```bash
+python -m pytest tests/test_geometric_transformer.py -v
 ```
