@@ -42,6 +42,12 @@ mnn/
 │   ├── proof_trajectories.py → Proof paths through theorem space
 │   ├── categorical_embed.py  → Category-theoretic embeddings
 │   └── training.py       → Training objectives (4 losses)
+├── quantum_pde/   → Quantum PDE Solvers (Phase 8)
+│   ├── states.py         → Quantum state PDE representation + operators
+│   ├── neural_operator.py → Neural operators + quantum evolution
+│   ├── spectral.py       → Spectral solving + geometric regularization
+│   ├── pde_discovery.py  → Discover governing PDEs from data
+│   └── categorical_pde.py → Category-theoretic PDE structure
 └── visualization/ → Visualization Engine
 ```
 
@@ -613,4 +619,79 @@ python examples/29_theorem_embeddings.py
 ### Embedding Tests
 ```bash
 python -m pytest tests/test_embeddings.py -v
+```
+
+---
+
+## Phase 8 — Quantum PDE Solvers
+
+Learn PDE solution spaces geometrically using quantum-inspired representations. Intersection of PDEs, quantum computing, and geometric deep learning.
+
+### Parts 1-2: Quantum States + Operators (`mnn.quantum_pde.states`)
+
+PDE solutions as quantum states |Ψ(x,t)⟩ with differential operators.
+
+```python
+from mnn.quantum_pde.states import QuantumPDEState, PDEOperator
+
+psi = QuantumPDEState.gaussian_packet(grid, center=0, width=1.0, k0=3.0)
+lap = PDEOperator.laplacian_1d(128, dx)
+psi_evolved = psi.evolve(lap.propagator(dt=0.001), 0.001)
+```
+
+### Parts 3-4: Neural Operator + Quantum Evolution (`mnn.quantum_pde.neural_operator`)
+
+Learn function space → function space with unitary evolution.
+
+```python
+from mnn.quantum_pde.neural_operator import QuantumPDENet
+
+net = QuantumPDENet(n_grid=64, width=32, n_operator_layers=4, n_evolution_steps=2)
+output = net(input_field)  # learns entire PDE families
+```
+
+### Parts 5-6: Spectral Solving + Geometric Regularization (`mnn.quantum_pde.spectral`)
+
+FFT-based exact solvers + geometric loss constraints.
+
+```python
+from mnn.quantum_pde.spectral import SpectralPDESolver, GeometricPDERegularizer
+
+solver = SpectralPDESolver(128)
+heat_traj = solver.solve_heat(u0, alpha=0.1, dt=0.01, n_steps=100)
+schro_traj = solver.solve_schrodinger(psi0, V, dt=0.01, n_steps=50)
+reg = GeometricPDERegularizer()  # norm + smoothness + curvature
+```
+
+### Part 7: PDE Discovery (`mnn.quantum_pde.pde_discovery`)
+
+Discover governing equations from observed data.
+
+```python
+from mnn.quantum_pde.pde_discovery import PDEDiscoveryEngine
+
+engine = PDEDiscoveryEngine(poly_order=3, deriv_order=3)
+result = engine.discover(u_data, dx, dt)  # finds u_t = 0.5*u_xx
+```
+
+### Part 8: Category-Theoretic PDE (`mnn.quantum_pde.categorical_pde`)
+
+Solution spaces as objects, operators as morphisms, discretization as functor.
+
+```python
+from mnn.quantum_pde.categorical_pde import PDECategory, DiscretizationFunctor
+
+cat = PDECategory("DiffusionCat")
+functor = DiscretizationFunctor(64, (0, 2*np.pi))
+lap = functor.discretize_laplacian()
+```
+
+### Quantum PDE Examples
+```bash
+python examples/30_quantum_pde_solvers.py
+```
+
+### Quantum PDE Tests
+```bash
+python -m pytest tests/test_quantum_pde.py -v
 ```
