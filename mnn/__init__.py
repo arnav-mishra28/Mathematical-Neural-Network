@@ -1,4 +1,4 @@
-"""MNN — Mathematical Neural Network Framework v0.9.0
+"""MNN — Mathematical Neural Network Framework v1.0.0
 
 Modules:
   core          — Symbolic math engine, differential operators, special functions
@@ -15,7 +15,8 @@ Modules:
   quantum_pde   — Quantum PDE solvers: states, neural operators, spectral, discovery, categorical
   geometric_transformer — Geometric transformers: manifold attention, graph reasoning, hierarchical
   spectral_manifold — Spectral manifold learning: Laplacian, harmonics, spectral attention, topology
+  agi             — Mathematical AGI Assistant: knowledge, memory, reasoning, planning, research
   visualization — Plotting utilities
 """
-__version__ = "0.9.0"
+__version__ = "1.0.0"
 

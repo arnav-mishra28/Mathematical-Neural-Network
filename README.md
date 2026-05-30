@@ -58,6 +58,14 @@ mnn/
 │   ├── embeddings.py     → Graph spectral analysis + spectral embeddings + harmonics
 │   ├── spectral_attention.py → Spectral attention + quantum spectral geometry
 │   └── pde_spectral.py   → PDE spectral solving + theorem topology
+├── agi/           → Mathematical AGI Assistant (Phase 11)
+│   ├── knowledge.py      → Knowledge Layer: math knowledge graphs
+│   ├── memory.py         → Mathematical Memory: concepts, proofs, research
+│   ├── reasoning.py      → Reasoning + Conjecture Engines
+│   ├── planner.py        → Proof Strategy + Mathematical Planner
+│   ├── explanation.py    → Explanation Engine: multi-level teaching
+│   ├── research.py       → Research Assistant + Dialogue System
+│   └── assistant.py      → Unified MathAGIAssistant
 └── visualization/ → Visualization Engine
 ```
 
@@ -839,4 +847,68 @@ python examples/32_spectral_manifold.py
 ### Spectral Manifold Tests
 ```bash
 python -m pytest tests/test_spectral_manifold.py -v
+```
+
+---
+
+## Phase 11 — Mathematical AGI Assistant
+
+A unified mathematical research agent: learn, reason, discover, verify, explain, plan, research, and collaborate.
+
+### Module 1: Knowledge Layer (`mnn.agi.knowledge`)
+
+```python
+from mnn.agi import MathAGIAssistant
+agi = MathAGIAssistant().initialize()  # seeds standard math knowledge
+agi.learn("my_thm", "theorem", "algebra", "All X are Y", ["group_def"])
+results = agi.knowledge.search("group")  # graph search
+```
+
+### Module 2: Memory (`mnn.agi.memory`)
+
+```python
+agi.memory.concepts.store("manifold", "Locally Euclidean space")
+agi.memory.research.add_conjecture("All manifolds admit metrics")
+agi.memory.proofs.store_strategy("induction", "Base + step", ["algebra"])
+```
+
+### Modules 3-4: Reasoning + Conjectures (`mnn.agi.reasoning`)
+
+```python
+chain = agi.reason("Prove commutativity")  # hybrid symbolic+geometric+categorical
+conjectures = agi.conjecture([{"input": x, "output": x**2} for x in range(5)])
+```
+
+### Modules 5-6: Proof Strategy + Planner (`mnn.agi.planner`)
+
+```python
+strategies = agi.suggest_proof(["algebra"])  # ranked strategies
+plan = agi.plan_proof("main_thm", [{"name": "lemma_a", "description": "..."}])
+```
+
+### Module 7: Explanation Engine (`mnn.agi.explanation`)
+
+```python
+agi.explain("group", "beginner")       # intuitive
+agi.explain("group", "undergraduate")  # formal
+agi.explain("group", "research")       # rigorous + categorical
+```
+
+### Modules 9-10: Research + Dialogue (`mnn.agi.research`)
+
+```python
+agi.investigate("Spectral Gap", "Study connectivity")  # research mode
+agi.chat("define G as a finite group")                   # dialogue mode
+agi.chat("assume G is simple")
+agi.dialogue.consistency_check()  # check for contradictions
+```
+
+### AGI Assistant Examples
+```bash
+python examples/33_math_agi_assistant.py
+```
+
+### AGI Assistant Tests
+```bash
+python -m pytest tests/test_agi.py -v
 ```
