@@ -53,6 +53,11 @@ mnn/
 │   ├── positional.py     → Spectral/graph positional encodings + categorical attention
 │   ├── quantum_attention.py → Quantum geometric + PDE-aware attention
 │   └── graph_transformer.py → Theorem graph transformers + hierarchical reasoning
+├── spectral_manifold/ → Spectral Manifold Learning (Phase 10)
+│   ├── laplacian.py      → Manifold Laplacian + spectral decomposition
+│   ├── embeddings.py     → Graph spectral analysis + spectral embeddings + harmonics
+│   ├── spectral_attention.py → Spectral attention + quantum spectral geometry
+│   └── pde_spectral.py   → PDE spectral solving + theorem topology
 └── visualization/ → Visualization Engine
 ```
 
@@ -765,4 +770,73 @@ python examples/31_geometric_transformers.py
 ### Geometric Transformer Tests
 ```bash
 python -m pytest tests/test_geometric_transformer.py -v
+```
+
+---
+
+## Phase 10 — Spectral Manifold Learning
+
+Learn the intrinsic frequencies and harmonics of mathematical structures. Geometry has hidden frequencies — spectral theory reveals global manifold structure.
+
+### Parts 1-2: Manifold Laplacian + Spectral Decomposition (`mnn.spectral_manifold.laplacian`)
+
+Laplace-Beltrami operator and eigendecomposition ΔM φ_i = λ_i φ_i.
+
+```python
+from mnn.spectral_manifold import ManifoldLaplacian, SpectralDecomposition
+
+lap = ManifoldLaplacian(points, k_neighbors=10)
+spec = SpectralDecomposition(lap, n_components=20)
+spec.frequencies     # geometric frequencies
+spec.heat_diffusion(signal, t=1.0)  # diffuse on manifold
+```
+
+### Parts 3-5: Graph Spectral + Embeddings + Harmonics (`mnn.spectral_manifold.embeddings`)
+
+Clusters, communities, spectral coordinates, frequency decomposition.
+
+```python
+from mnn.spectral_manifold import GraphSpectralAnalyzer, SpectralEmbedding, ManifoldHarmonics
+
+analyzer = GraphSpectralAnalyzer(adjacency)
+clusters = analyzer.detect_communities(3)
+coords = SpectralEmbedding(8).fit_transform(adj)  # eigenfunction coordinates
+harmonics = ManifoldHarmonics(spec)
+result = harmonics.decompose_signal(signal)  # low/mid/high frequency bands
+```
+
+### Parts 6-7: Spectral + Quantum Attention (`mnn.spectral_manifold.spectral_attention`)
+
+Attention in harmonic space; quantum states as spectral wavefunctions.
+
+```python
+from mnn.spectral_manifold import SpectralAttention, QuantumSpectralLayer
+
+attn = SpectralAttention(64, n_harmonics=16)  # manifold-harmonic attention
+qsl = QuantumSpectralLayer(16, n_harmonics=8)  # |ψ⟩ = Σ c_i φ_i
+```
+
+### Parts 8-9: PDE Spectral + Theorem Topology (`mnn.spectral_manifold.pde_spectral`)
+
+PDEs decouple in spectral space; discover theorem network structure.
+
+```python
+from mnn.spectral_manifold import SpectralPDEEvolver, TheoremSpectralTopology
+
+evolver = SpectralPDEEvolver(spec)
+heat_traj = evolver.solve_heat(u0, alpha=0.5)  # decoupled spectral evolution
+tst = TheoremSpectralTopology(adj, names)
+tst.theorem_clusters(3)        # spectral communities
+tst.proof_bottlenecks(5)       # Fiedler analysis
+tst.hidden_bridges()           # cross-domain connections
+```
+
+### Spectral Manifold Examples
+```bash
+python examples/32_spectral_manifold.py
+```
+
+### Spectral Manifold Tests
+```bash
+python -m pytest tests/test_spectral_manifold.py -v
 ```
