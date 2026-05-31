@@ -1,4 +1,4 @@
-"""MNN — Mathematical Neural Network Framework v1.1.0
+"""MNN — Mathematical Neural Network Framework v1.2.0
 
 Modules:
   core          — Symbolic math engine, differential operators, special functions
@@ -17,7 +17,8 @@ Modules:
   spectral_manifold — Spectral manifold learning: Laplacian, harmonics, spectral attention, topology
   agi             — Mathematical AGI Assistant: knowledge, memory, reasoning, planning, research
   researcher      — Autonomous Scientific Researcher: hypotheses, experiments, discovery, publication
+  itde            — Interactive Theorem-Discovery Environment: workspace, canvas, conjecture, proof, agents
   visualization — Plotting utilities
 """
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 

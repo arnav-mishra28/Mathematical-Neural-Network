@@ -73,6 +73,12 @@ mnn/
 │   ├── critique.py       → Self-Critique + Discovery Engine
 │   ├── publication.py    → Publication Engine + Research Roadmap
 │   └── autonomous.py     → Unified AutonomousResearcher
+├── itde/          → Interactive Theorem-Discovery Environment (Phase 13)
+│   ├── workspace.py      → Mathematical Workspace + Live Theorem Canvas
+│   ├── conjecture_proof.py → Conjecture Playground + Proof Assistant
+│   ├── explorer.py       → Knowledge Graph Explorer + Research Notebook
+│   ├── collaboration.py  → AI Co-Researcher + Multi-Agent + Dashboard
+│   └── environment.py    → Unified TheoremDiscoveryEnvironment
 └── visualization/ → Visualization Engine
 ```
 
@@ -978,4 +984,52 @@ python examples/34_autonomous_researcher.py
 ### Researcher Tests
 ```bash
 python -m pytest tests/test_researcher.py -v
+```
+
+---
+
+## Phase 13 — Interactive Theorem-Discovery Environment
+
+A collaborative mathematical laboratory where humans and AI discover mathematics together.
+
+### Modules 1-2: Workspace + Theorem Canvas (`mnn.itde.workspace`)
+
+```python
+from mnn.itde import TheoremDiscoveryEnvironment
+itde = TheoremDiscoveryEnvironment("MathLab")
+itde.create_object("S2", "manifold", "2-sphere", dimension=2, radius=1.0)
+itde.add_theorem("lagrange", "|H| divides |G|", ["group_def"])
+print(itde.view_canvas())  # rendered theorem tree
+```
+
+### Modules 3-4: Conjecture Playground + Proof Assistant (`mnn.itde.conjecture_proof`)
+
+```python
+conjs = itde.hypothesize("symmetry detected in operator")
+suggestions = itde.suggest_proof("Prove by spectral decomposition")
+```
+
+### Modules 6-7: Knowledge Graph + Notebook (`mnn.itde.explorer`)
+
+```python
+info = itde.explore_topic("group_theory")  # cross-domain links
+itde.notebook.add_experiment("Test", "Result")  # reproducible notebook
+```
+
+### Modules 8-10: AI Co-Researcher + Multi-Agent + Dashboard (`mnn.itde.collaboration`)
+
+```python
+report = itde.investigate("Nonlinear PDE")  # AI research report
+contributions = itde.discuss("Group expansion")  # multi-agent debate
+itde.dashboard.add_entry("Conjecture #1", "conjecture", 0.87, 5, 0)
+```
+
+### ITDE Examples
+```bash
+python examples/35_itde.py
+```
+
+### ITDE Tests
+```bash
+python -m pytest tests/test_itde.py -v
 ```
