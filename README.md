@@ -66,6 +66,13 @@ mnn/
 │   ├── explanation.py    → Explanation Engine: multi-level teaching
 │   ├── research.py       → Research Assistant + Dialogue System
 │   └── assistant.py      → Unified MathAGIAssistant
+├── researcher/    → Autonomous Scientific Researcher (Phase 12)
+│   ├── literature.py     → Literature Engine + Research Knowledge Graph
+│   ├── hypothesis.py     → Hypothesis Generator + Experiment Planner
+│   ├── simulation.py     → Simulation Engine + Evidence Scoring
+│   ├── critique.py       → Self-Critique + Discovery Engine
+│   ├── publication.py    → Publication Engine + Research Roadmap
+│   └── autonomous.py     → Unified AutonomousResearcher
 └── visualization/ → Visualization Engine
 ```
 
@@ -911,4 +918,64 @@ python examples/33_math_agi_assistant.py
 ### AGI Assistant Tests
 ```bash
 python -m pytest tests/test_agi.py -v
+```
+
+---
+
+## Phase 12 — Autonomous Scientific Researcher
+
+An autonomous research system that generates tasks, creates hypotheses, designs experiments, critiques its own work, and decides what to investigate next.
+
+### Modules 1-2: Literature + Knowledge Graph (`mnn.researcher.literature`)
+
+```python
+from mnn.researcher import AutonomousResearcher
+amsr = AutonomousResearcher("MyResearchBot")
+amsr.ingest_source("Spectral Graph Theory", "textbook",
+                    concepts=["laplacian", "eigenvalues"])
+```
+
+### Modules 3-4: Hypothesis + Experiments (`mnn.researcher.hypothesis`)
+
+```python
+hyps = amsr.observe([{"input": x, "output": x**2} for x in range(5)])
+exps = amsr.plan_experiments(0)  # design tests for hypothesis 0
+```
+
+### Modules 5-6: Simulation + Evidence (`mnn.researcher.simulation`)
+
+```python
+result = amsr.run_simulation("heat_1d", "pde", {"n_points": 50})
+score = amsr.score_evidence(0)  # weighted multi-type confidence
+```
+
+### Modules 7-8: Self-Critique + Discovery (`mnn.researcher.critique`)
+
+```python
+critiques = amsr.self_critique("Hypothesis X", evidence, assumptions)
+discoveries = amsr.detect_discoveries(patterns)
+```
+
+### Modules 9-10: Publication + Roadmap (`mnn.researcher.publication`)
+
+```python
+pub = amsr.publish("My Research", investigation_dict)
+next_q = amsr.next_question()  # autonomous next investigation
+```
+
+### Autonomous Research Cycle
+
+```python
+result = amsr.research_cycle(observations)  # full loop
+# Observe → Hypothesize → Experiment → Critique → New Questions
+```
+
+### Researcher Examples
+```bash
+python examples/34_autonomous_researcher.py
+```
+
+### Researcher Tests
+```bash
+python -m pytest tests/test_researcher.py -v
 ```
