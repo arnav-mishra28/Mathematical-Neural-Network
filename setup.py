@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 setup(
-    name="mnn", version="1.2.0",
+    name="mnn", version="1.3.0",
     description="Mathematical Neural Network Framework — Research Grade",
     packages=find_packages(),
     python_requires=">=3.9",

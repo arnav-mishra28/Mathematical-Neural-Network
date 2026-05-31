@@ -1,4 +1,4 @@
-"""MNN — Mathematical Neural Network Framework v1.2.0
+"""MNN — Mathematical Neural Network Framework v1.3.0
 
 Modules:
   core          — Symbolic math engine, differential operators, special functions
@@ -18,7 +18,8 @@ Modules:
   agi             — Mathematical AGI Assistant: knowledge, memory, reasoning, planning, research
   researcher      — Autonomous Scientific Researcher: hypotheses, experiments, discovery, publication
   itde            — Interactive Theorem-Discovery Environment: workspace, canvas, conjecture, proof, agents
+  mathos          — AI-Powered Mathematical Operating System: kernel, memory, agents, simulation, proof, apps, cloud
   visualization — Plotting utilities
 """
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 

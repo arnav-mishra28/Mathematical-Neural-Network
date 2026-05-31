@@ -79,6 +79,13 @@ mnn/
 │   ├── explorer.py       → Knowledge Graph Explorer + Research Notebook
 │   ├── collaboration.py  → AI Co-Researcher + Multi-Agent + Dashboard
 │   └── environment.py    → Unified TheoremDiscoveryEnvironment
+├── mathos/        → AI-Powered Mathematical Operating System (Phase 14)
+│   ├── kernel.py         → Mathematical Kernel + Memory System (Layers 1-2)
+│   ├── agents.py         → Agent Runtime + Knowledge Graph OS (Layers 3-4)
+│   ├── simulation.py     → Simulation + Discovery Subsystems (Layers 5-6)
+│   ├── proof.py          → Proof Subsystem + Visualization Engine (Layers 7-8)
+│   ├── apps.py           → Application Ecosystem + Mathematical Cloud (Layers 9-10)
+│   └── mathos.py         → Unified MathOS
 └── visualization/ → Visualization Engine
 ```
 
@@ -1032,4 +1039,67 @@ python examples/35_itde.py
 ### ITDE Tests
 ```bash
 python -m pytest tests/test_itde.py -v
+```
+
+---
+
+## Phase 14 — AI-Powered Mathematical Operating System (MathOS)
+
+The culmination: an operating system for mathematical intelligence.
+
+### Boot MathOS
+
+```python
+from mnn.mathos import MathOS
+mos = MathOS("ResearchLab")
+print(mos.boot())  # boot screen with all 10 layers
+```
+
+### Layer 1-2: Kernel + Memory
+
+```python
+mos.create("S2", "manifold", domain="geometry", dimension=2, radius=1.0)
+mos.create("Z12", "group", domain="algebra", order=12)
+mos.memory.store("proof", "lagrange", "Coset counting proof")
+```
+
+### Layer 3-4: Agents + Knowledge Graph
+
+```python
+results = mos.dispatch("Analyze spectral gap")  # all agents respond
+mos.knowledge.add_edge("S2", "Z12", "related")
+path = mos.knowledge.find_path("S2", "Z12")
+```
+
+### Layer 5-6: Simulation + Discovery
+
+```python
+result = mos.simulate("lorenz", "chaos", {"steps": 3000})
+cycle = mos.research_cycle({"values": [2, 4, 6, 8]})
+```
+
+### Layer 7-8: Proof + Visualization
+
+```python
+attempt = mos.prove("Sylow theorem", "construction")
+mos.visualize_manifold("torus", save_path="torus.png")
+mos.visualize_dynamics(trajectory, "lorenz", "lorenz.png")
+```
+
+### Layer 9-10: Apps + Cloud
+
+```python
+mos.run_app("TheoremExplorer")  # 6 built-in apps
+task = mos.cloud_submit("Prove conjecture", "proof")
+mos.cloud_share("theorem_name", {"proof": "..."})
+```
+
+### MathOS Examples
+```bash
+python examples/36_mathos.py
+```
+
+### MathOS Tests
+```bash
+python -m pytest tests/test_mathos.py -v
 ```
